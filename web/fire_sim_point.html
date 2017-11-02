@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>My first three.js app</title>
+        <style>
+            body { margin: 0; }
+            canvas { width: 100%; height: 100% }
+        </style>
+    </head>
+    <body>
+        <script src="three.js"></script>
+        <script src="cloud3d.js"></script>
+        <script>
+            // 下面是一些可以拿来调的参数
+            var pointPollSize = 15000;  //屏幕上所有粒子的数量
+            cloudModelConfig.Enx = 10;                              //X的熵
+            cloudModelConfig.Eny = 10;                              //Y的熵
+            cloudModelConfig.Hex = 0.5;                         //X的超熵
+            cloudModelConfig.Hey = 0.5;                         //Y的超熵
+            var cameraDistance = 200;       //摄像机距离
+            //模拟代码
+            //创建场景
+      var scene = new THREE.Scene();
+            //初始化摄像机
+      width = window.innerWidth;
+            height = window.innerHeight;
+            var camera = new THREE.PerspectiveCamera( 25, width / height, 0.1, 1e7 );
+            camera.position.x = camera.position.y = camera.position.z = cameraDistance;
+            camera.lookAt(0, 0, 0);
+            //初始化渲染器
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize( width, height );
+      document.body.appendChild( renderer.domElement );
+            // 初始化粒子群
+      // 创建粒子geometry
+      var texture = new THREE.TextureLoader().load( 'Fire.png' );
+      var particleCount = pointPollSize,
+          particles = new THREE.Geometry(),
+          pMaterial = new THREE.PointsMaterial({
+              color: 0xFFFF00,
+              size: 20,
+              map: texture,
+              blending: THREE.AdditiveBlending,
+              transparent: true
+          });
+            var points = generatePoints(
+                particleCount,
+                cloudModelConfig.Enx,
+                cloudModelConfig.Eny,
+                cloudModelConfig.Hex,
+                cloudModelConfig.Hey
+            );
+      // 依次创建单个粒子
+      for(var p = 0; p < particleCount; p++) {
+        var particle = new THREE.Vector3(
+                    points[p].position.x,
+                    points[p].position.y,
+                    points[p].position.z,
+                );
+        // 将粒子加入粒子geometry
+        particles.vertices.push(particle);
+      }
+      // 创建粒子系统
+      var particleSystem =
+        new THREE.Points(
+          particles,
+          pMaterial);
+      // 将粒子系统加入场景
+      particleSystem.sortParticles = true;
+      scene.add(particleSystem);
+      function animate() {
+        particleSystem.rotation.y += 0.01;
+                updatePoints(points, particleSystem);
+                // 更新屏幕绘制
+              particleSystem.geometry.verticesNeedUpdate = true;
+          requestAnimationFrame( animate );
+          renderer.render( scene, camera );
+      }
+      animate();
+        </script>
+    </body>
+</html>
