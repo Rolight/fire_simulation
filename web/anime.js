@@ -80,6 +80,12 @@ function setCameraPos(x, y, z) {
 }
 
 function eehh(ex, ey, hx, hy) {
+    if (cloudModelConfig.Enx === ex &&
+        cloudModelConfig.Eny === ey &&
+        cloudModelConfig.Hex === hx &&
+        cloudModelConfig.hey === hy) {
+        return;
+    }
     cloudModelConfig.Enx = ex;
     cloudModelConfig.Eny = ey;
     cloudModelConfig.Hex = hx;
