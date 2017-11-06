@@ -61,6 +61,7 @@ function generatePoints(n, Enx, Eny, Hex, Hey) {
       speed: {
         x: 0,
         z: 0,
+        // 粒子上升速度和确定度挂钩
         y: cloud2dModel[i][2] * normrnd(0.5, 0.1)
       },
       // 寿命
@@ -73,8 +74,8 @@ function generatePoints(n, Enx, Eny, Hex, Hey) {
 
 // 更新粒子属性
 function updatePoints(points, particleSystem) {
-  var n = points.length;
   var p = particleSystem.children;
+  var n = p.length;
   for (var i = 0; i < n; i++) {
     curPoint = points[i];
     // 判断粒子是否死亡
@@ -89,10 +90,11 @@ function updatePoints(points, particleSystem) {
     }
     else {
       // 计算粒子运动
-      curPoint.position.x += curPoint.speed.x + normrnd(0, 0.3);
+      curPoint.position.x += curPoint.speed.x + normrnd(0, 0.5);
       curPoint.position.y += curPoint.speed.y;
-      curPoint.position.z += curPoint.speed.z + normrnd(0, 0.3);
+      curPoint.position.z += curPoint.speed.z + normrnd(0, 0.5);
     }
+    // 将位置信息更新到Sprite
     p[i].position.x = curPoint.position.x;
     p[i].position.y = curPoint.position.y;
     p[i].position.z = curPoint.position.z;

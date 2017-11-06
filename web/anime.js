@@ -1,13 +1,13 @@
 // 下面是一些可以拿来调的参数
-var pointPollSize = 5000;     //屏幕上所有粒子的数量
 cloudModelConfig.Enx = 10;          //X的熵
 cloudModelConfig.Eny = 10;                                                            //Y的熵
-cloudModelConfig.Hex = 10;                                                    //X的超熵
-cloudModelConfig.Hey = 10;                                                    //Y的超熵
+cloudModelConfig.Hex = 0.1;                                                    //X的超熵
+cloudModelConfig.Hey = 0.1;                                                    //Y的超熵
 var cameraPosX = 200;                                                             //摄像机位置
-var cameraPosY = 200;                                                             //摄像机位置
+var cameraPosY = 20;                                                             //摄像机位置
 var cameraPosZ = 200;                                                             //摄像机位置
 //模拟代码
+var pointPollSize = 3000;
 //创建场景
 var scene = new THREE.Scene();
 //初始化摄像机
@@ -27,6 +27,7 @@ var group = new THREE.Group();
 scene.add(group);
 // 导入纹理 因为CORS的限制需要在本地起服务器
 var texture = new THREE.TextureLoader().load( 'Fire.png' );
+// 材质贴图
 var spriteMaterial = new THREE.SpriteMaterial({
     map: texture,
     color: 0xffffff,
@@ -34,7 +35,10 @@ var spriteMaterial = new THREE.SpriteMaterial({
     transparent: true,
     opacity: 0.15,
 });
+
 var particleCount = pointPollSize;
+
+// 生成云模型中的点
 var points = generatePoints(
     particleCount,
     cloudModelConfig.Enx,
@@ -42,16 +46,24 @@ var points = generatePoints(
     cloudModelConfig.Hex,
     cloudModelConfig.Hey
 );
-// 依次创建单个粒子
-for(var p = 0; p < particleCount; p++) {
-    var particle = new THREE.Sprite(spriteMaterial);
-    particle.position.x = points[p].position.x;
-    particle.position.y = points[p].position.y;
-    particle.position.z = points[p].position.z;
-    particle.scale.set(6, 6, 6);
-    group.add(particle);
-}
+
+// 按确定度从大到小排序，保证先出现的中间位置的火苗
+points.sort(function (a, b) {
+  return -a.u + b.u;
+});
+
 function animate() {
+    if (group.children.length < particleCount) {
+        for (var i = 1; i <= 15; i++) {
+            var p = group.children.length;
+            var particle = new THREE.Sprite(spriteMaterial);
+            particle.position.x = points[p].position.x;
+            particle.position.y = points[p].position.y;
+            particle.position.z = points[p].position.z;
+            particle.scale.set(6, 15, 6);
+            group.add(particle);
+        }
+    }
     updatePoints(points, group);
     group.rotation.y += 0.01;
     // 更新屏幕绘制
@@ -60,7 +72,7 @@ function animate() {
 }
 animate();
 
-function c(x, y, z) {
+function setCameraPos(x, y, z) {
     camera.position.x = x;
     camera.position.y = y;
     camera.position.z = z;
@@ -72,4 +84,6 @@ function eehh(ex, ey, hx, hy) {
     cloudModelConfig.Eny = ey;
     cloudModelConfig.Hex = hx;
     cloudModelConfig.Hey = hy;
+    // 清除已经生成的所有粒子
+    group.children = [];
 }
