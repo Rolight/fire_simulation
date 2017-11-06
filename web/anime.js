@@ -65,7 +65,7 @@ function animate() {
         }
     }
     updatePoints(points, group);
-    // group.rotation.y += 0.01;
+    group.rotation.y += 0.01;
     // 更新屏幕绘制
     requestAnimationFrame( animate );
     renderer.render( scene, camera );
@@ -80,10 +80,10 @@ function setCameraPos(x, y, z) {
 }
 
 function eehh(ex, ey, hx, hy) {
-    if (cloudModelConfig.Enx === ex &&
-        cloudModelConfig.Eny === ey &&
-        cloudModelConfig.Hex === hx &&
-        cloudModelConfig.hey === hy) {
+    if (cloudModelConfig.Enx == ex &&
+        cloudModelConfig.Eny == ey &&
+        cloudModelConfig.Hex == hx &&
+        cloudModelConfig.hey == hy) {
         return;
     }
     cloudModelConfig.Enx = ex;
