@@ -65,7 +65,7 @@ function animate() {
         }
     }
     updatePoints(points, group);
-    group.rotation.y += 0.01;
+    // group.rotation.y += 0.01;
     // 更新屏幕绘制
     requestAnimationFrame( animate );
     renderer.render( scene, camera );
