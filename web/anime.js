@@ -60,7 +60,7 @@ function animate() {
             particle.position.x = points[p].position.x;
             particle.position.y = points[p].position.y;
             particle.position.z = points[p].position.z;
-            particle.scale.set(6, 15, 6);
+            particle.scale.set(6, 10, 6);
             group.add(particle);
         }
     }
