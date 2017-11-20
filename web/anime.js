@@ -97,5 +97,12 @@ function eehh(ex, ey, hx, hy) {
 function setParticleCount(value) {
     particleCount = parseInt(value)
     group.children = [];
+    points = generatePoints(
+        particleCount,
+        cloudModelConfig.Enx,
+        cloudModelConfig.Eny,
+        cloudModelConfig.Hex,
+        cloudModelConfig.Hey
+    )
     console.log("particleCount set to" + value)
 }
