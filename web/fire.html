@@ -15,17 +15,21 @@
         <div style="color: 0xffffff">
             <center>
                 <p>
-                    x
+                    粒子数量
+                    <input type="text" onchange="setParticleCount" value="3000"/>
+                </p>
+                <p>
+                    相机位置x
                     <input type="range" oninput="adjust(0)" id="cx" value="200" min="0" max="400"/>
                     <span id="cxValue">200</span>
                 </p>
                 <p>
-                    y
+                    相机位置y
                     <input type="range" oninput="adjust(0)" id="cy" value="20" min="-400" max="400"/>
                     <span id="cyValue">20</span>
                 </p>
                 <p>
-                    z
+                    相机位置z
                     <input type="range" oninput="adjust(0)" id="cz" value="200" min="0" max="400"/>
                     <span id="czValue">200</span>
                 </p>

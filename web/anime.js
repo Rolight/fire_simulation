@@ -93,3 +93,7 @@ function eehh(ex, ey, hx, hy) {
     // 清除已经生成的所有粒子
     group.children = [];
 }
+
+function setParticleCount(value) {
+    particleCount = parseInt(value)
+}
