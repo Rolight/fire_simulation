@@ -54,7 +54,7 @@ points.sort(function (a, b) {
 
 function animate() {
     if (group.children.length < particleCount) {
-        for (var i = 1; i <= 15; i++) {
+        for (var i = 1; i <= 15 && group.children.length < particleCount; i++) {
             var p = group.children.length;
             var particle = new THREE.Sprite(spriteMaterial);
             particle.position.x = points[p].position.x;
@@ -96,6 +96,9 @@ function eehh(ex, ey, hx, hy) {
 
 function setParticleCount(value) {
     particleCount = parseInt(value)
+    if (!particleCount) {
+        particleCount = 3000
+    }
     group.children = [];
     points = generatePoints(
         particleCount,
