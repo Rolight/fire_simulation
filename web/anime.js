@@ -96,4 +96,6 @@ function eehh(ex, ey, hx, hy) {
 
 function setParticleCount(value) {
     particleCount = parseInt(value)
+    group.children = [];
+    console.log("particleCount set to" + value)
 }
