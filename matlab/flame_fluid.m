@@ -3,7 +3,7 @@ function [F] = flame_fluid( Enx, Eny, Hex, Hey, speed )
     curSpeeds = [];
     curRemainLifes = [];
     loops = 1000;
-    maxPoints = 15000;
+    maxPoints = 5000;
     F(loops) = struct('cdata',[],'colormap',[]);
     for k = 1:loops
         if size(curPoints, 1) <= maxPoints
@@ -21,4 +21,5 @@ function [F] = flame_fluid( Enx, Eny, Hex, Hey, speed )
         drawnow 
         F(k) = getframe;
     end
+    save('moive.mat', 'F');
 end

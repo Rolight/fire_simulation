@@ -17,4 +17,3 @@ function draw( points )
     colormap(hot);
     set(gca,'Color',[0, 0, 0]);
 end
-
