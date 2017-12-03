@@ -16,10 +16,11 @@ function [F] = flame_fluid( Enx, Eny, Hex, Hey, speed )
         curx = curPoints(:, 1);
         cury = curPoints(:, 2);
         curz = curPoints(:, 3);
-        % scatter3(curx, cury, curz, 5, 'red', 'filled');
-        draw(curPoints);
+        set(gca,'XLim',[-5000 5000],'YLim',[-5000 5000],'ZLim',[0 50]);
+        scatter3(curx, cury, curz, 5, 'red', 'filled');
+        % draw(curPoints);
         drawnow 
         F(k) = getframe;
     end
-    save('moive.mat', 'F');
+    % save('moive.mat', 'F');
 end

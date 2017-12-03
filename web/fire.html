@@ -19,19 +19,14 @@
                     <input type="text" onkeyup="setParticleCount(this.value)" value="3000"/>
                 </p>
                 <p>
-                    相机位置x
-                    <input type="range" oninput="adjust(0)" id="cx" value="200" min="0" max="400"/>
-                    <span id="cxValue">200</span>
-                </p>
-                <p>
-                    相机位置y
+                    相机高度
                     <input type="range" oninput="adjust(0)" id="cy" value="20" min="-400" max="400"/>
                     <span id="cyValue">20</span>
                 </p>
                 <p>
-                    相机位置z
-                    <input type="range" oninput="adjust(0)" id="cz" value="200" min="0" max="400"/>
-                    <span id="czValue">200</span>
+                    相机旋转
+                    <input type="range" oninput="adjust(0)" id="cz" value="0" min="-1" max="1" step="0.01"/>
+                    <span id="czValue">0</span>
                 </p>
                 <p>
                     Enx
@@ -58,8 +53,8 @@
         <script>
             function adjust(adjType) {
                 var adjv = ['x', 'y', 'z', 'enx', 'eny', 'hex', 'hey'];
-                var values = [];
-                for (var i = 0; i < adjv.length; i++) {
+                var values = [0];
+                for (var i = 1; i < adjv.length; i++) {
                     var name = 'c' + adjv[i];
                     var valueName = name + 'Value';
                     var value = parseFloat(document.getElementById(name).value);

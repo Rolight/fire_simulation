@@ -90,9 +90,9 @@ function updatePoints(points, particleSystem) {
     }
     else {
       // 计算粒子运动
-      curPoint.position.x += curPoint.speed.x + normrnd(0, 0.5);
+      curPoint.position.x += curPoint.speed.x + normrnd(0, 0.2);
       curPoint.position.y += curPoint.speed.y;
-      curPoint.position.z += curPoint.speed.z + normrnd(0, 0.5);
+      curPoint.position.z += curPoint.speed.z + normrnd(0, 0.2);
     }
     // 将位置信息更新到Sprite
     p[i].position.x = curPoint.position.x;

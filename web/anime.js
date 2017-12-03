@@ -73,9 +73,9 @@ function animate() {
 animate();
 
 function setCameraPos(x, y, z) {
-    camera.position.x = x;
     camera.position.y = y;
-    camera.position.z = z;
+    // camera.position.z = z;
+    group.rotation.y = z;
     camera.lookAt(0, 0, 0);
 }
 
