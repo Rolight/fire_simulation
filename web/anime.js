@@ -5,7 +5,7 @@ cloudModelConfig.Hex = 0.1;                                                    /
 cloudModelConfig.Hey = 0.1;                                                    //Y的超熵
 cloudModelConfig.EnxD = 0.1;
 cloudModelConfig.HexD = 0.1;
-cloudModelConfig.EnxR = 5;
+cloudModelConfig.EnxR = 0.5;
 cloudModelConfig.HexR = 0.1;
 
 
@@ -13,7 +13,7 @@ var cameraPosX = 200;                                                           
 var cameraPosY = 20;                                                             //摄像机位置
 var cameraPosZ = 200;                                                             //摄像机位置
 // 粒子池大小
-var pointPollSize = 3000;
+var pointPollSize = 2000;
 //创建场景
 var scene = new THREE.Scene();
 //初始化摄像机
@@ -86,25 +86,26 @@ function setCameraPos(x, y, z) {
     camera.lookAt(0, 0, 0);
 }
 
-function eehh(ex, ey, hx, hy) {
-    if (cloudModelConfig.Enx == ex &&
-        cloudModelConfig.Eny == ey &&
-        cloudModelConfig.Hex == hx &&
-        cloudModelConfig.hey == hy) {
-        return;
+function eehh(configs) {
+    var names = ['Enx', 'Eny', 'Hex', 'Hey', 'EnxD', 'HexD', 'EnxR', 'HexR'];
+    // 如果没有发生更改 就不清空
+    var changed = false;
+    for (var i = 0; i < names.length; i++) {
+        if(configs[i] != cloudModelConfig[names[i]]) {
+            changed = true;
+        }
+        cloudModelConfig[names[i]] = configs[i];
     }
-    cloudModelConfig.Enx = ex;
-    cloudModelConfig.Eny = ey;
-    cloudModelConfig.Hex = hx;
-    cloudModelConfig.Hey = hy;
-    // 清除已经生成的所有粒子
-    group.children = [];
+    // 如果发生更改，清除已经生成的所有粒子
+    if (changed) {
+        group.children = [];
+    }
 }
 
 function setParticleCount(value) {
     particleCount = parseInt(value)
     if (!particleCount) {
-        particleCount = 3000
+        particleCount = 2000
     }
     group.children = [];
     points = generatePoints(
