@@ -4,7 +4,11 @@ cloudModelConfig = {
   Enx: 10,
   Eny: 10,
   Hex: 0.1,
-  Hey: 0.1
+  Hey: 0.1,
+  EnxD: 0.1,
+  HexD: 0.1,
+  EnxR: 5,
+  HexR: 0.1
 };
 
 // 正态分布随机数生成
@@ -25,6 +29,19 @@ function randomNormalDistribution(){
     return u * c;
 }
 
+// 一维高斯云生成
+function cloud1d(Ex, Enx, Hex, n) {
+    var ret = [];
+    for(var i = 1; i <= n; i++) {
+        var Ennx = normrnd(Enx, Hex);
+        var x = normrnd(Ex, Ennx);
+        var ex = (x - Ex) * (x - Ex) / (2 * Ennx * Ennx);
+        var u = Math.exp(-ex);
+        ret.push([x, u]);
+    }
+    return ret;
+}
+
 // 二维高斯云生成
 function cloud2d(Ex, Ey, Enx, Eny, Hex, Hey, n) {
   var ret = [];
@@ -43,9 +60,19 @@ function cloud2d(Ex, Ey, Enx, Eny, Hex, Hey, n) {
 }
 
 // 生成新粒子并且初始化属性
-function generatePoints(n, Enx, Eny, Hex, Hey) {
+function generatePoints(n, cloudModelConfig) {
+  var Enx = cloudModelConfig.Enx;
+  var Eny = cloudModelConfig.Eny;
+  var Hex = cloudModelConfig.Hex;
+  var Hey = cloudModelConfig.Hey;
+  var EnxD = cloudModelConfig.EnxD;
+  var HexD = cloudModelConfig.HexD;
+  var EnxR = cloudModelConfig.EnxR;
+  var HexR = cloudModelConfig.HexR;
   // 生成高斯云
   var cloud2dModel = cloud2d(0, 0, Enx, Eny, Hex, Hey, n);
+  var cloud1dModel = cloud1d(0.5, EnxD, HexD, n);
+  var cloud1dLifeModel = cloud1d(0, EnxR, HexR, n);
   var points = [];
   for (var i = 0; i < n; i++) {
     curPoint = {
@@ -62,10 +89,15 @@ function generatePoints(n, Enx, Eny, Hex, Hey) {
         x: 0,
         z: 0,
         // 粒子上升速度和确定度挂钩
+        // 粒子上升速度的随机干扰由1维正向云生成
+        // u = 0.5, sigma = 0.1
+        // y: cloud2dModel[i][2] * Math.abs(cloud1dModel[i][1])
         y: cloud2dModel[i][2] * normrnd(0.5, 0.1)
       },
       // 寿命
+      // 寿命的随机干扰由1维正向云生成
       remain_life: 150 * normrnd(5, 5)
+      // remain_life: 150 * (cloud1dLifeModel[i][1] + 5)
     };
     points.push(curPoint);
   }

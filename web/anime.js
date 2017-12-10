@@ -3,21 +3,30 @@ cloudModelConfig.Enx = 10;          //X的熵
 cloudModelConfig.Eny = 10;                                                            //Y的熵
 cloudModelConfig.Hex = 0.1;                                                    //X的超熵
 cloudModelConfig.Hey = 0.1;                                                    //Y的超熵
+cloudModelConfig.EnxD = 0.1;
+cloudModelConfig.HexD = 0.1;
+cloudModelConfig.EnxR = 5;
+cloudModelConfig.HexR = 0.1;
+
+
 var cameraPosX = 200;                                                             //摄像机位置
 var cameraPosY = 20;                                                             //摄像机位置
 var cameraPosZ = 200;                                                             //摄像机位置
-//模拟代码
+// 粒子池大小
 var pointPollSize = 3000;
 //创建场景
 var scene = new THREE.Scene();
 //初始化摄像机
 width = window.innerWidth;
 height = window.innerHeight;
+
 var camera = new THREE.PerspectiveCamera( 25, width / height, 0.1, 1e7 );
+
 camera.position.x = cameraPosX;
 camera.position.y = cameraPosY;
 camera.position.z = cameraPosZ;
 camera.lookAt(0, 0, 0);
+
 //初始化渲染器
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( width, height );
@@ -41,10 +50,7 @@ var particleCount = pointPollSize;
 // 生成云模型中的点
 var points = generatePoints(
     particleCount,
-    cloudModelConfig.Enx,
-    cloudModelConfig.Eny,
-    cloudModelConfig.Hex,
-    cloudModelConfig.Hey
+    cloudModelConfig
 );
 
 // 按确定度从大到小排序，保证先出现的中间位置的火苗
@@ -103,10 +109,7 @@ function setParticleCount(value) {
     group.children = [];
     points = generatePoints(
         particleCount,
-        cloudModelConfig.Enx,
-        cloudModelConfig.Eny,
-        cloudModelConfig.Hex,
-        cloudModelConfig.Hey
+        cloudModelConfig
     )
     console.log("particleCount set to" + value)
 }
