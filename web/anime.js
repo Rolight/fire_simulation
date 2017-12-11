@@ -19,13 +19,15 @@ var scene = new THREE.Scene();
 //初始化摄像机
 width = window.innerWidth;
 height = window.innerHeight;
+// 地平线高度
+skyline = 60
 
 var camera = new THREE.PerspectiveCamera( 25, width / height, 0.1, 1e7 );
 
 camera.position.x = cameraPosX;
 camera.position.y = cameraPosY;
 camera.position.z = cameraPosZ;
-camera.lookAt(0, 0, 0);
+camera.lookAt(0, skyline, 0);
 
 //初始化渲染器
 var renderer = new THREE.WebGLRenderer();
@@ -64,7 +66,7 @@ function animate() {
             var p = group.children.length;
             var particle = new THREE.Sprite(spriteMaterial);
             particle.position.x = points[p].position.x;
-            particle.position.y = points[p].position.y;
+            particle.position.y = points[p].position.y + skyline;
             particle.position.z = points[p].position.z;
             particle.scale.set(6, 10, 6);
             group.add(particle);
@@ -83,7 +85,7 @@ function setCameraPos(x, y, z) {
     camera.position.z = 200;
     camera.position.x = 200;
     group.rotation.y = z;
-    camera.lookAt(0, 0, 0);
+    camera.lookAt(0, skyline, 0);
 }
 
 function eehh(configs) {
