@@ -16,6 +16,7 @@ var cameraPosZ = 200;                                                           
 var pointPollSize = 2000;
 //创建场景
 var scene = new THREE.Scene();
+scene.background = new THREE.Color( 0x000000 );
 //初始化摄像机
 width = window.innerWidth;
 height = window.innerHeight;
